@@ -1,0 +1,70 @@
+.overview {
+    width: 30%;
+    border-radius: 10px;
+    padding: 20px;
+    background-image: url('../../Images/BG.png'), linear-gradient(#ffffff, #ffffff);
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.overview .stats p:nth-child(1) {
+    color: #4caf50;
+    font-weight: bold;
+}
+
+.overview .stats p:nth-child(2) {
+    color: #f44336;
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+.overview .stats p:nth-child(3) {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+.overview .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.overview .head h2 {
+    color: #545454;
+    letter-spacing: 2px;
+}
+
+.overview .head button {
+    border: none;
+    cursor: pointer;
+    background-color: #282c34;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: 0.3s linear;
+}
+
+.overview .head button:hover {
+    background-color: #ffffff;
+    color: #282c34;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+
+.chartDesign {
+    width: 100px;
+    display: flex;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 35px 0;
+    font-size: 15px;
+}
+
+.stats i {
+    color: #545454;
+}

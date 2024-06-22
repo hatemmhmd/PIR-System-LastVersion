@@ -1,0 +1,26 @@
+.NameMoudule-startDate {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px;
+    align-items: center;
+    padding: 0 30px;
+    letter-spacing: 1px;
+}
+
+.NameMoudule-startDate h1 {
+    font-size: 21px;
+    font-weight: 400;
+    color: #191919;
+}
+
+.NameMoudule-startDate h1:nth-child(1) {
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.NameMoudule-startDate h1:nth-child(2) {
+    background-color: #ececec;
+    padding: 10px 20px;
+    border-radius: 30px;
+}

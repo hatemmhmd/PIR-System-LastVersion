@@ -1,0 +1,176 @@
+.tableParent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:root {
+    --TableBG: url(/src/Images/BG.png), linear-gradient(#ffffff, #ffffff);
+    --TableHead: rgb(78, 78, 78);
+    --InputColor: #111;
+    --DateTime: transparent;
+}
+
+/* .dark-mode {
+    --TableBG: url(/src/Images/BG.png), linear-gradient(#030303, #000000) !important;
+    --TableHead: #ffffff;
+    --InputColor: grey;
+    --DateTime: #ffffff;
+} */
+
+.SystemTable {
+    width: 90%;
+    margin: 50px 0;
+    padding: 50px;
+    border-radius: 50px;
+    background-color: #ffffff;
+    background-image: var(--TableBG);
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.SystemTable th {
+    color: var(--TableHead);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    font-weight: bold;
+}
+
+.SystemTable td::after {
+    content: "";
+    background-color: #949494;
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    display: block;
+    left: 0;
+    bottom: 0px;
+}
+
+.SystemTable .systemName label {
+    color: var(--InputColor);
+}
+
+.SystemTable .lasele::after {
+    display: none;
+}
+
+.SystemTable td {
+    text-align: center;
+    padding: 25px 0;
+    position: relative;
+}
+
+
+.SystemTable tr td input {
+    border: none;
+    outline: none;
+    background-color: var(--DateTime);
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #111;
+    letter-spacing: 0.5px;
+    transition: 0.3s linear;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.SystemTable tr td span {
+    margin: 0 10px;
+}
+
+.SystemTable tr td i:nth-child(1) {
+    color: #f44336;
+    cursor: pointer;
+    font-size: 25px;
+    margin: 0 10px;
+}
+
+.SystemTable tr td i:nth-child(2) {
+    color: #4caf50;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.SystemTable .bi-play-fill {
+    color: #4caf50 !important;
+    font-size: 30px !important;
+}
+
+
+.SystemTable .dateTime {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SystemTable .dateTime span i {
+    cursor: auto !important;
+    color: #111 !important;
+}
+
+.SystemTable .systemName {
+    text-align: justify;
+    font-size: 20px;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.SystemTable .systemName input {
+    margin-right: 10px;
+    transform: scale(1.3);
+    position: absolute;
+    top: 51%;
+    transform: scale(1.3) translateY(-50%);
+    left: -25px;
+}
+
+.SystemTable .bi-arrow-repeat {
+    position: absolute !important;
+    left: -45px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
+
+.SystemTable .bi-arrow-repeat::before {
+    animation-name: move;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-direction: normal;
+    color: #747474;
+}
+
+
+@keyframes move {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.Toastify__toast-container--bottom-left {
+    width: 33% !important;
+}
+
+.Toastify__toast-body>div:last-child {
+    color: #ffffff !important;
+    font-weight: 200;
+    letter-spacing: 1px;
+    font-size: 15px;
+}
+
+.showDateTime {
+    background-color: #4caf50 !important;
+    color: #ffffff !important;
+    transition: 0.3s linear;
+}
+
+path {
+    color: #949494;
+}
