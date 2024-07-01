@@ -1,169 +1,3 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet">
-
-  <title>PIR System</title>
-</head>
-
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-
-</html>
-
-
-
-
-
-
-
-
-
-
--------------------------------------------
-
-import { useContext, useEffect, useState } from 'react';
-import '../Systems/System.css';
-import { CheckContext } from '../CutomHook/CustomHookProvider';
-import { Bounce, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
-
-function System() {
-    const { setDateTime, setSelectedModule } = useContext(CheckContext);
-
-    const navigate = useNavigate();
-
-    const initialSystems = [
-        { name: 'Arabia', loading: false, startTime: '', endTime: '' },
-        { name: 'FundBot', loading: false, startTime: '', endTime: '' },
-        { name: 'COB', loading: false, startTime: '', endTime: '' },
-        { name: 'Helios', loading: false, startTime: '', endTime: '' },
-        { name: 'Reflect', loading: false, startTime: '', endTime: '' },
-    ];
-
-    const [systems, setSystems] = useState(initialSystems);
-
-    const sortSystems = (systemsArray: typeof initialSystems) => {
-        return systemsArray.sort((a, b) => (a.loading === b.loading) ? 0 : a.loading ? -1 : 1);
-    };
-
-    const ifuserCheck = (index: number) => {
-        const system = systems[index];
-        if (!system.startTime) {
-            toast.error('Please Enter Start Date Time..', {
-                position: "bottom-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                className: 'custom-toast',
-                transition: Bounce,
-            });
-            return;
-        }
-        const newSystems = [...systems];
-        newSystems[index].loading = true;
-        
-        setSystems(sortSystems(newSystems));
-    };
-
-    const handleClick = (index: number) => {
-        const system = systems[index];
-        setSelectedModule(system.name);
-        setDateTime(system.startTime);
-        navigate('/DataPage');
-    };
-
-    const handleInputChange = (index: number, field: string, value: string | boolean) => {
-        const newSystems = [...systems];
-        newSystems[index][field] = value;
-        setSystems(sortSystems(newSystems));
-    };
-
-
-
-
-
-    return (
-        <div className="tableParent">
-            <ToastContainer />
-            <table className='SystemTable'>
-                <thead>
-                    <tr>
-                        <th>System</th>
-                        <th>Schedule</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {systems.map((system, index) => (
-                        <tr key={system.name}>
-                            <td className='systemName'>
-                                {system.loading && <i className="bi bi-arrow-repeat"></i>}
-                                <label>{system.name}</label>
-                            </td>
-                            <td className='dateTime'>
-                                <input
-                                    type='datetime-local'
-                                    value={system.startTime}
-                                    onChange={(e) => handleInputChange(index, 'startTime', e.target.value)}
-                                    disabled={system.loading} />
-
-                                <span> <i className="bi bi-arrow-right"></i> </span>
-
-                                <input
-                                    type='datetime-local'
-                                    value={system.endTime}
-                                    onChange={(e) => handleInputChange(index, 'endTime', e.target.value)}
-                                    disabled={system.loading}
-                                />
-                            </td>
-                            <td className='actions'>
-                                {system.loading ? (
-                                    <div className='stop-download'>
-                                        <i className="bi bi-stop-circle" onClick={() => handleInputChange(index, 'loading', false)}></i>
-                                        <i className="bi bi-file-earmark-arrow-down"></i>
-                                        <button onClick={() => handleClick(index)}>details</button>
-                                    </div>
-                                ) : (
-                                    <i className="bi bi-play-circle" onClick={() => ifuserCheck(index)}></i>
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
-}
-
-export default System;
-
-
-
-
-
-
-¥¥¥¥¥¥¥¥¥¥
-
-
 import { useContext, useState } from 'react';
 import '../Systems/System.css';
 import { CheckContext } from '../CutomHook/CustomHookProvider';
@@ -223,6 +57,14 @@ function System() {
     const handleInputChange = (index: number, field: string, value: string | boolean) => {
         const newSystems = [...systems];
         newSystems[index][field] = value;
+
+        // Ensure end date is greater than start date
+        if (field === 'startTime' && typeof value === 'string') {
+            if (newSystems[index].endTime && new Date(value) >= new Date(newSystems[index].endTime)) {
+                newSystems[index].endTime = value; // Adjust the end time to be the same as the start time
+            }
+        }
+
         setSystems(sortSystems(newSystems));
     };
 
@@ -288,4 +130,3 @@ function System() {
 }
 
 export default System;
-
