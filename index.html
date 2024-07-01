@@ -61,7 +61,7 @@ function System() {
         // Ensure end date is greater than start date
         if (field === 'startTime' && typeof value === 'string') {
             if (newSystems[index].endTime && new Date(value) >= new Date(newSystems[index].endTime)) {
-                newSystems[index].endTime = value; // Adjust the end time to be the same as the start time
+                newSystems[index].endTime = ''; // Clear the end time if it's not greater than the start time
             }
         }
 
@@ -106,6 +106,7 @@ function System() {
                                 <input
                                     type='datetime-local'
                                     value={system.endTime}
+                                    min={system.startTime} // Set min value for end time
                                     onChange={(e) => handleInputChange(index, 'endTime', e.target.value)}
                                     disabled={system.loading}
                                 />
