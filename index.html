@@ -1,38 +1,74 @@
-[
-    {
-        "id": 1,
-        "name": "Database 1",
-        "tables": {
-            "tablesName": [
-                "Table 1",
-                "Table 2",
-                "Table 3"
-            ],
-            "description": "Table one oooo"
-        }
-    },
-    {
-        "id": 2,
-        "name": "Database 2",
-        "tables": {
-            "tablesName": [
-                "Table 1",
-                "Table 2",
-                "Table 3"
-            ],
-            "description": "Table one oooo"
-        }
-    },
-    {
-        "id": 3,
-        "name": "Database 3",
-        "tables": {
-            "tablesName": [
-                "Table 1",
-                "Table 2",
-                "Table 3"
-            ],
-            "description": "Table one oooo"
-        }
+import React, { useState } from 'react';
+
+interface Tables {
+  tablesName: string[];
+  description: string;
+}
+
+interface Database {
+  id: number;
+  name: string;
+  tables: Tables;
+}
+
+const data: Database[] = [
+  {
+    id: 1,
+    name: "Database 1",
+    tables: {
+      tablesName: ["Table 1", "Table 2", "Table 3"],
+      description: "Table one oooo"
     }
-]
+  },
+  {
+    id: 2,
+    name: "Database 2",
+    tables: {
+      tablesName: ["Table 1", "Table 2", "Table 3"],
+      description: "Table one oooo"
+    }
+  },
+  {
+    id: 3,
+    name: "Database 3",
+    tables: {
+      tablesName: ["Table 1", "Table 2", "Table 3"],
+      description: "Table one oooo"
+    }
+  }
+];
+
+const App: React.FC = () => {
+  const [selectedDatabaseId, setSelectedDatabaseId] = useState<number | null>(null);
+  const [selectedTables, setSelectedTables] = useState<string[]>([]);
+
+  const handleDatabaseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const databaseId = parseInt(event.target.value, 10);
+    const selectedDatabase = data.find(db => db.id === databaseId) || null;
+
+    setSelectedDatabaseId(databaseId);
+    setSelectedTables(selectedDatabase ? selectedDatabase.tables.tablesName : []);
+  };
+
+  return (
+    <div>
+      <label htmlFor="databaseDropdown">Choose a database:</label>
+      <select id="databaseDropdown" onChange={handleDatabaseChange}>
+        <option value="">Select a database</option>
+        {data.map(db => (
+          <option key={db.id} value={db.id}>{db.name}</option>
+        ))}
+      </select>
+
+      <label htmlFor="tableDropdown">Choose a table:</label>
+      <select id="tableDropdown">
+        <option value="">Select a table</option>
+        {selectedTables.map((table, index) => (
+          <option key={index} value={table}>{table}</option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+export default App;
