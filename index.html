@@ -1,3 +1,46 @@
+{
+  "databases": [
+    {
+      "id": 1,
+      "name": "database1",
+      "tables": {
+        "tablesName": [
+          "table1",
+          "table2",
+          "table3"
+        ],
+        "description": "Description for tables in database1"
+      }
+    },
+    {
+      "id": 2,
+      "name": "database2",
+      "tables": {
+        "tablesName": [
+          "table4",
+          "table5",
+          "table6"
+        ],
+        "description": "Description for tables in database2"
+      }
+    },
+    {
+      "id": 3,
+      "name": "database3",
+      "tables": {
+        "tablesName": [
+          "table7",
+          "table8",
+          "table9"
+        ],
+        "description": "Description for tables in database3"
+      }
+    }
+  ]
+}
+
+--------------------
+
 import React, { useState } from 'react';
 
 interface Tables {
@@ -11,43 +54,59 @@ interface Database {
   tables: Tables;
 }
 
-const data: Database[] = [
-  {
-    id: 1,
-    name: "Database 1",
-    tables: {
-      tablesName: ["Table 1", "Table 2", "Table 3"],
-      description: "Table one oooo"
+const data: { databases: Database[] } = {
+  databases: [
+    {
+      id: 1,
+      name: "database1",
+      tables: {
+        tablesName: [
+          "table1",
+          "table2",
+          "table3"
+        ],
+        description: "Description for tables in database1"
+      }
+    },
+    {
+      id: 2,
+      name: "database2",
+      tables: {
+        tablesName: [
+          "table4",
+          "table5",
+          "table6"
+        ],
+        description: "Description for tables in database2"
+      }
+    },
+    {
+      id: 3,
+      name: "database3",
+      tables: {
+        tablesName: [
+          "table7",
+          "table8",
+          "table9"
+        ],
+        description: "Description for tables in database3"
+      }
     }
-  },
-  {
-    id: 2,
-    name: "Database 2",
-    tables: {
-      tablesName: ["Table 1", "Table 2", "Table 3"],
-      description: "Table one oooo"
-    }
-  },
-  {
-    id: 3,
-    name: "Database 3",
-    tables: {
-      tablesName: ["Table 1", "Table 2", "Table 3"],
-      description: "Table one oooo"
-    }
-  }
-];
+  ]
+};
 
 const App: React.FC = () => {
   const [selectedDatabaseId, setSelectedDatabaseId] = useState<number | null>(null);
   const [selectedTables, setSelectedTables] = useState<string[]>([]);
+  const [tablesDescription, setTablesDescription] = useState<string>("");
 
   const handleDatabaseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const databaseId = parseInt(event.target.value, 10);
-    const selectedDatabase = data.find(db => db.id === databaseId) || null;
+    const selectedDatabase = data.databases.find(db => db.id === databaseId) || null;
 
     setSelectedDatabaseId(databaseId);
     setSelectedTables(selectedDatabase ? selectedDatabase.tables.tablesName : []);
+    setTablesDescription(selectedDatabase ? selectedDatabase.tables.description : "");
   };
 
   return (
@@ -55,18 +114,24 @@ const App: React.FC = () => {
       <label htmlFor="databaseDropdown">Choose a database:</label>
       <select id="databaseDropdown" onChange={handleDatabaseChange}>
         <option value="">Select a database</option>
-        {data.map(db => (
+        {data.databases.map(db => (
           <option key={db.id} value={db.id}>{db.name}</option>
         ))}
       </select>
 
-      <label htmlFor="tableDropdown">Choose a table:</label>
-      <select id="tableDropdown">
-        <option value="">Select a table</option>
-        {selectedTables.map((table, index) => (
-          <option key={index} value={table}>{table}</option>
-        ))}
-      </select>
+      {selectedDatabaseId && (
+        <div>
+          <label htmlFor="tableDropdown">Choose a table:</label>
+          <select id="tableDropdown">
+            <option value="">Select a table</option>
+            {selectedTables.map((table, index) => (
+              <option key={index} value={table}>{table}</option>
+            ))}
+          </select>
+
+          <p>Description: {tablesDescription}</p>
+        </div>
+      )}
     </div>
   );
 };
