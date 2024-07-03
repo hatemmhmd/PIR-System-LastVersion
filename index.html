@@ -1,139 +1,66 @@
-{
-  "databases": [
+[
     {
-      "id": 1,
-      "name": "database1",
-      "tables": {
-        "tablesName": [
-          "table1",
-          "table2",
-          "table3"
-        ],
-        "description": "Description for tables in database1"
-      }
+        "id": 1,
+        "name": "HR Bayan",
+        "tables": [
+            {
+                "tableId": 1,
+                "tableName": "Employees",
+                "primaryKey": "EmployeeID",
+                "description": "Description for Employees tables in database HR",
+                "columns": [
+                    {
+                        "columnId": 1,
+                        "columnName": "EmployeeID",
+                        "dataType": "string"
+                    }
+                ]
+            },
+            {
+                "tableId": 2,
+                "tableName": "Users",
+                "primaryKey": "UserID",
+                "description": "Description for Users tables in database HR",
+                "columns": [
+                    {
+                        "columnId": 1,
+                        "columnName": "UserID",
+                        "dataType": "number"
+                    }
+                ]
+            }
+        ]
     },
     {
-      "id": 2,
-      "name": "database2",
-      "tables": {
-        "tablesName": [
-          "table4",
-          "table5",
-          "table6"
-        ],
-        "description": "Description for tables in database2"
-      }
-    },
-    {
-      "id": 3,
-      "name": "database3",
-      "tables": {
-        "tablesName": [
-          "table7",
-          "table8",
-          "table9"
-        ],
-        "description": "Description for tables in database3"
-      }
+        "id": 2,
+        "name": "Customer",
+        "tables": [
+            {
+                "tableId": 3,
+                "tableName": "Customers",
+                "primaryKey": "CustomerID",
+                "description": "Description for Customers tables in database Customers",
+                "columns":[
+                    {
+                        "columnId": 1,
+                        "columnName": "CustomerID",
+                        "dataType": "string"
+                    }
+                ]
+            },
+            {
+                "tableId": 2,
+                "tableName": "Users",
+                "primaryKey": "UserID",
+                "description": "Description for Users tables in database HR",
+                "columns": [
+                    {
+                        "columnId": 1,
+                        "columnName": "UserID",
+                        "dataType": "number"
+                    }
+                ]
+            }
+        ]
     }
-  ]
-}
-
---------------------
-
-import React, { useState } from 'react';
-
-interface Tables {
-  tablesName: string[];
-  description: string;
-}
-
-interface Database {
-  id: number;
-  name: string;
-  tables: Tables;
-}
-
-const data: { databases: Database[] } = {
-  databases: [
-    {
-      id: 1,
-      name: "database1",
-      tables: {
-        tablesName: [
-          "table1",
-          "table2",
-          "table3"
-        ],
-        description: "Description for tables in database1"
-      }
-    },
-    {
-      id: 2,
-      name: "database2",
-      tables: {
-        tablesName: [
-          "table4",
-          "table5",
-          "table6"
-        ],
-        description: "Description for tables in database2"
-      }
-    },
-    {
-      id: 3,
-      name: "database3",
-      tables: {
-        tablesName: [
-          "table7",
-          "table8",
-          "table9"
-        ],
-        description: "Description for tables in database3"
-      }
-    }
-  ]
-};
-
-const App: React.FC = () => {
-  const [selectedDatabaseId, setSelectedDatabaseId] = useState<number | null>(null);
-  const [selectedTables, setSelectedTables] = useState<string[]>([]);
-  const [tablesDescription, setTablesDescription] = useState<string>("");
-
-  const handleDatabaseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const databaseId = parseInt(event.target.value, 10);
-    const selectedDatabase = data.databases.find(db => db.id === databaseId) || null;
-
-    setSelectedDatabaseId(databaseId);
-    setSelectedTables(selectedDatabase ? selectedDatabase.tables.tablesName : []);
-    setTablesDescription(selectedDatabase ? selectedDatabase.tables.description : "");
-  };
-
-  return (
-    <div>
-      <label htmlFor="databaseDropdown">Choose a database:</label>
-      <select id="databaseDropdown" onChange={handleDatabaseChange}>
-        <option value="">Select a database</option>
-        {data.databases.map(db => (
-          <option key={db.id} value={db.id}>{db.name}</option>
-        ))}
-      </select>
-
-      {selectedDatabaseId && (
-        <div>
-          <label htmlFor="tableDropdown">Choose a table:</label>
-          <select id="tableDropdown">
-            <option value="">Select a table</option>
-            {selectedTables.map((table, index) => (
-              <option key={index} value={table}>{table}</option>
-            ))}
-          </select>
-
-          <p>Description: {tablesDescription}</p>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default App;
+]
