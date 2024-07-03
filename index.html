@@ -1,3 +1,159 @@
+import React, { useState } from 'react';
+
+interface Column {
+  columnId: number;
+  columnName: string;
+  dataType: string;
+}
+
+interface Table {
+  tableId: number;
+  tableName: string;
+  primaryKey: string;
+  description: string;
+  columns: Column[];
+}
+
+interface Database {
+  id: number;
+  name: string;
+  tables: Table[];
+}
+
+const data: Database[] = [
+  {
+    id: 1,
+    name: 'HR Bayan',
+    tables: [
+      {
+        tableId: 1,
+        tableName: 'Employees',
+        primaryKey: 'EmployeeID',
+        description: 'Description for Employees tables in database HR',
+        columns: [
+          {
+            columnId: 1,
+            columnName: 'EmployeeID',
+            dataType: 'string',
+          },
+        ],
+      },
+      {
+        tableId: 2,
+        tableName: 'Users',
+        primaryKey: 'UserID',
+        description: 'Description for Users tables in database HR',
+        columns: [
+          {
+            columnId: 1,
+            columnName: 'UserID',
+            dataType: 'number',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Customer',
+    tables: [
+      {
+        tableId: 3,
+        tableName: 'Customers',
+        primaryKey: 'CustomerID',
+        description: 'Description for Customers tables in database Customers',
+        columns: [
+          {
+            columnId: 1,
+            columnName: 'CustomerID',
+            dataType: 'string',
+          },
+        ],
+      },
+      {
+        tableId: 2,
+        tableName: 'Users',
+        primaryKey: 'UserID',
+        description: 'Description for Users tables in database HR',
+        columns: [
+          {
+            columnId: 1,
+            columnName: 'UserID',
+            dataType: 'number',
+          },
+        ],
+      },
+    ],
+  },
+];
+
+const App: React.FC = () => {
+  const [selectedDatabase, setSelectedDatabase] = useState<Database | null>(null);
+  const [selectedTable, setSelectedTable] = useState<Table | null>(null);
+
+  const handleDatabaseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const databaseId = parseInt(event.target.value, 10);
+    const database = data.find(db => db.id === databaseId) || null;
+    setSelectedDatabase(database);
+    setSelectedTable(null);
+  };
+
+  const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const tableId = parseInt(event.target.value, 10);
+    const table = selectedDatabase?.tables.find(tb => tb.tableId === tableId) || null;
+    setSelectedTable(table);
+  };
+
+  return (
+    <div>
+      <label>
+        Select Database:
+        <select onChange={handleDatabaseChange} value={selectedDatabase?.id || ''}>
+          <option value="" disabled>Select a database</option>
+          {data.map(db => (
+            <option key={db.id} value={db.id}>{db.name}</option>
+          ))}
+        </select>
+      </label>
+
+      {selectedDatabase && (
+        <label>
+          Select Table:
+          <select onChange={handleTableChange} value={selectedTable?.tableId || ''}>
+            <option value="" disabled>Select a table</option>
+            {selectedDatabase.tables.map(tb => (
+              <option key={tb.tableId} value={tb.tableId}>{tb.tableName}</option>
+            ))}
+          </select>
+        </label>
+      )}
+
+      {selectedTable && (
+        <div>
+          <h3>Table Details:</h3>
+          <p>Name: {selectedTable.tableName}</p>
+          <p>Description: {selectedTable.description}</p>
+          <p>Primary Key: {selectedTable.primaryKey}</p>
+          <h4>Columns:</h4>
+          <ul>
+            {selectedTable.columns.map(col => (
+              <li key={col.columnId}>
+                {col.columnName} ({col.dataType})
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
+
+----------
+
+
+
 [
     {
         "id": 1,
