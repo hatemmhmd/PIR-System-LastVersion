@@ -247,6 +247,38 @@ CSS SelectDB
 }
 
 
+-----------------------------------------
+
+
+import React, { ReactNode, createContext,useState } from 'react';
+
+interface CheckContextType {
+  selectedModule: string | null;
+  setSelectedModule: React.Dispatch<React.SetStateAction<string>>;
+  dateTime: string | null;
+  setDateTime: React.Dispatch<React.SetStateAction<string>>;
+}
+
+
+const defaultValue: CheckContextType = {
+  setSelectedModule: () => {},
+  selectedModule: '',
+  dateTime: '',
+  setDateTime: () => {},
+};
+
+export const CheckContext = createContext<CheckContextType>(defaultValue);
+export const CustomHookProvider = ({ children }: { children: ReactNode }) => {
+  
+  const [selectedModule, setSelectedModule] = useState<string>('');
+  const [dateTime , setDateTime] = useState<string>('');
+  const values = {selectedModule,setSelectedModule,dateTime,setDateTime} ;
+  return (
+    <CheckContext.Provider value={values}>
+      {children}
+    </CheckContext.Provider>
+  );
+};
 
 
 
