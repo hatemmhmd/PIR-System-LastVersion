@@ -1,158 +1,4 @@
-import React, { useState } from 'react';
-
-interface Column {
-  columnId: number;
-  columnName: string;
-  dataType: string;
-}
-
-interface Table {
-  tableId: number;
-  tableName: string;
-  primaryKey: string;
-  description: string;
-  columns: Column[];
-}
-
-interface Database {
-  id: number;
-  name: string;
-  tables: Table[];
-}
-
-const data: Database[] = [
-  {
-    id: 1,
-    name: 'HR Bayan',
-    tables: [
-      {
-        tableId: 1,
-        tableName: 'Employees',
-        primaryKey: 'EmployeeID',
-        description: 'Description for Employees tables in database HR',
-        columns: [
-          {
-            columnId: 1,
-            columnName: 'EmployeeID',
-            dataType: 'string',
-          },
-        ],
-      },
-      {
-        tableId: 2,
-        tableName: 'Users',
-        primaryKey: 'UserID',
-        description: 'Description for Users tables in database HR',
-        columns: [
-          {
-            columnId: 1,
-            columnName: 'UserID',
-            dataType: 'number',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Customer',
-    tables: [
-      {
-        tableId: 3,
-        tableName: 'Customers',
-        primaryKey: 'CustomerID',
-        description: 'Description for Customers tables in database Customers',
-        columns: [
-          {
-            columnId: 1,
-            columnName: 'CustomerID',
-            dataType: 'string',
-          },
-        ],
-      },
-      {
-        tableId: 2,
-        tableName: 'Users',
-        primaryKey: 'UserID',
-        description: 'Description for Users tables in database HR',
-        columns: [
-          {
-            columnId: 1,
-            columnName: 'UserID',
-            dataType: 'number',
-          },
-        ],
-      },
-    ],
-  },
-];
-
-const App: React.FC = () => {
-  const [selectedDatabase, setSelectedDatabase] = useState<Database | null>(null);
-  const [selectedTable, setSelectedTable] = useState<Table | null>(null);
-
-  const handleDatabaseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const databaseId = parseInt(event.target.value, 10);
-    const database = data.find(db => db.id === databaseId) || null;
-    setSelectedDatabase(database);
-    setSelectedTable(null);
-  };
-
-  const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const tableId = parseInt(event.target.value, 10);
-    const table = selectedDatabase?.tables.find(tb => tb.tableId === tableId) || null;
-    setSelectedTable(table);
-  };
-
-  return (
-    <div>
-      <label>
-        Select Database:
-        <select onChange={handleDatabaseChange} value={selectedDatabase?.id || ''}>
-          <option value="" disabled>Select a database</option>
-          {data.map(db => (
-            <option key={db.id} value={db.id}>{db.name}</option>
-          ))}
-        </select>
-      </label>
-
-      {selectedDatabase && (
-        <label>
-          Select Table:
-          <select onChange={handleTableChange} value={selectedTable?.tableId || ''}>
-            <option value="" disabled>Select a table</option>
-            {selectedDatabase.tables.map(tb => (
-              <option key={tb.tableId} value={tb.tableId}>{tb.tableName}</option>
-            ))}
-          </select>
-        </label>
-      )}
-
-      {selectedTable && (
-        <div>
-          <h3>Table Details:</h3>
-          <p>Name: {selectedTable.tableName}</p>
-          <p>Description: {selectedTable.description}</p>
-          <p>Primary Key: {selectedTable.primaryKey}</p>
-          <h4>Columns:</h4>
-          <ul>
-            {selectedTable.columns.map(col => (
-              <li key={col.columnId}>
-                {col.columnName} ({col.dataType})
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default App;
-
-----------
-
-
+Data :
 
 [
     {
@@ -180,22 +26,24 @@ export default App;
                 "columns": [
                     {
                         "columnId": 1,
-                        "columnName": "UserID",
+                        "columnName": "EmployeeName",
                         "dataType": "number"
                     }
                 ]
             }
         ]
     },
+
+
     {
         "id": 2,
         "name": "Customer",
         "tables": [
             {
                 "tableId": 3,
-                "tableName": "Customers",
+                "tableName": "Customer Name",
                 "primaryKey": "CustomerID",
-                "description": "Description for Customers tables in database Customers",
+                "description": "Description for Customer Name tables in database Customers",
                 "columns":[
                     {
                         "columnId": 1,
@@ -206,9 +54,9 @@ export default App;
             },
             {
                 "tableId": 2,
-                "tableName": "Users",
+                "tableName": "Customer Age",
                 "primaryKey": "UserID",
-                "description": "Description for Users tables in database HR",
+                "description": "Description for Customer Age tables in database Customers",
                 "columns": [
                     {
                         "columnId": 1,
@@ -220,3 +68,186 @@ export default App;
         ]
     }
 ]
+
+
+
+---------------------------------------------------------
+
+selectDb 
+
+import React, { useState } from 'react';
+import data from '../../Data/Data.json';
+import './SelectDB.css';
+
+interface Column {
+    columnId: number;
+    columnName: string;
+    dataType: string;
+}
+interface Table {
+    tableId: number;
+    tableName: string;
+    primaryKey: string;
+    description: string;
+    columns: Column[];
+}
+interface Database {
+    id: number;
+    name: string;
+    tables: Table[];
+}
+
+
+const App: React.FC = () => {
+    const [selectedDatabase, setSelectedDatabase] = useState<Database | null>(null);
+    const [selectedTable, setSelectedTable] = useState<Table | null>(null);
+
+    const [disabled, setDisabled] = useState(true);
+    const [showDescription, setShowDescription] = useState(false);
+
+    const handleDatabaseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+
+        const databaseId = parseInt(event.target.value, 10);
+        const database = data.find(db => db.id === databaseId) || null;
+        setSelectedDatabase(database);
+        setSelectedTable(null);
+    };
+
+
+    const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const tableId = parseInt(event.target.value, 10);
+        const table = selectedDatabase?.tables.find(tb => tb.tableId === tableId) || null;
+        setSelectedTable(table);
+        event.target.value ? setDisabled(false) : setDisabled(true);
+    };
+
+    return (
+
+        <div className='NavBar'>
+
+            <div className='logo'>
+                <p>middleware<br/>system</p>
+            </div>
+
+            <div className='chooses'>
+                <div className='dbSelect'>
+                    <select onChange={handleDatabaseChange}>
+                        <option value="">Select a database</option>
+                        {data.map(db => (
+                            <option key={db.id} value={db.id}>{db.name}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className='tableSelect'>
+                    <select onChange={handleTableChange} value={selectedTable?.tableId || ''}>
+                        <option value="">Select a table</option>
+                        {selectedDatabase?.tables.map(tb => (
+                            <option key={tb.tableId} value={tb.tableId}>{tb.tableName}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className='description'>
+                    <button onClick={() => { setShowDescription(prev => !prev) }} disabled={disabled}>description</button>
+                    {showDescription &&(
+                        <div className='content'>
+                            <h3>{selectedTable?.description}</h3>
+                        </div>
+                    )}
+
+                </div>
+
+            </div>
+
+
+
+
+
+        </div>
+    );
+};
+
+export default App;
+
+---------------------------
+CSS SelectDB
+
+      .NavBar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    padding: 0 100px;
+    border-bottom: 1px solid #caced1;
+}
+
+.NavBar .logo{
+    text-align: center;
+    font-size: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.NavBar .chooses{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NavBar .chooses .dbSelect,
+.NavBar .chooses .tableSelect{
+    margin: 0 30px;
+}
+
+.NavBar .chooses select{
+    appearance: none;
+    width: 100%;
+    font-size: 1.15rem;
+    padding: 0.675em 6em 0.675em 1em;
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
+}
+
+.NavBar .description{
+    position: relative;
+}
+
+.NavBar .description button{
+    cursor: pointer;
+    outline: none;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: #caced1;
+    color: #000;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    font-size: 18px;
+}
+
+.NavBar .description .content{
+    position: absolute;
+    background-color: #caced1;
+    width: 250%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    left: 50%;
+    top: 50px;
+    border-radius: 10px;
+    transform: translateX(-50%);
+    font-size: 15px;
+    text-align: center;
+    padding:30px 20px;
+}
+
+
+
+
+
+
